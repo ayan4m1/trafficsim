@@ -22,7 +22,7 @@ const plugins = [
   }),
   new MiniCssExtractPlugin(),
   new CnameWebpackPlugin({
-    domain: 'mk8d.andrewdelisa.com'
+    domain: 'trafficsim.andrewdelisa.com'
   })
 ];
 
@@ -52,6 +52,10 @@ const config: Configuration = {
   },
   module: {
     rules: [
+      {
+        test: /\.svg$/,
+        use: 'raw-loader'
+      },
       {
         test: /\.tsx?$/,
         use: ['ts-loader'],

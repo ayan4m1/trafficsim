@@ -18,7 +18,6 @@
     "bootstrap": "^5.3.3",
     "bootswatch": "^5.3.3",
     "classnames": "^2.5.1",
-    "copy-webpack-plugin": "^12.0.2",
     "formik": "^2.4.6",
     "konva": "^9.3.18",
     "react": "^18.3.1",
