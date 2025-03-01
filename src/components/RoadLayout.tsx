@@ -1,14 +1,15 @@
 import { useMemo } from 'react';
 
-import RoadSection from './RoadSection';
 import { Direction, RoadConfiguration, RoadSectionProps } from '../utils';
+import StraightRoad from './StraightRoad';
+import CurvedRoad from './CurvedRoad';
 
 interface IProps {
   configuration: RoadConfiguration;
 }
 
 export default function RoadLayout({ configuration }: IProps) {
-  const sections = useMemo<RoadSectionProps[]>(() => {
+  const sectionProps = useMemo<RoadSectionProps[]>(() => {
     const result: RoadSectionProps[] = [];
     let currentX = 0,
       currentY = 0;
@@ -39,12 +40,11 @@ export default function RoadLayout({ configuration }: IProps) {
     return result;
   }, [configuration]);
 
-  return sections.map((section, index) => (
-    <RoadSection
-      key={index}
-      section={section.section}
-      x={section.x}
-      y={section.y}
-    />
-  ));
+  return sectionProps.map((props, index) =>
+    props.section.turnDirection ? (
+      <CurvedRoad key={index} {...props} />
+    ) : (
+      <StraightRoad key={index} {...props} />
+    )
+  );
 }

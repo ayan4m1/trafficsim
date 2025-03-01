@@ -11,10 +11,9 @@ import {
 import { useWindowSize } from '@uidotdev/usehooks';
 import { Col, Container, Row } from 'react-bootstrap';
 
-import RoadSection from '../components/RoadSection';
+import RoadLayout from '../components/RoadLayout';
 import VehicleImage from '../components/VehicleImage';
 import { Direction, RoadConfiguration, Size, Vehicle } from '../utils';
-import RoadLayout from '../components/RoadLayout';
 
 export default function IndexPage() {
   const animateRef = useRef<number>(0);
