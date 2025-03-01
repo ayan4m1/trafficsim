@@ -8,7 +8,7 @@ import Header from './Header';
 export default function Layout() {
   return (
     <Fragment>
-      <Helmet titleTemplate="mk8doptim - %s" />
+      <Helmet titleTemplate="trafficsim - %s" />
       <Header />
       <Container fluid="sm" style={{ minWidth: '100%', maxWidth: 'unset' }}>
         <Outlet />
