@@ -1,6 +1,11 @@
 import { useMemo } from 'react';
 
-import { Direction, RoadConfiguration, RoadSectionProps } from '../utils';
+import {
+  DefaultRoad,
+  Direction,
+  RoadConfiguration,
+  RoadSectionProps
+} from '../utils';
 import StraightRoad from './StraightRoad';
 import CurvedRoad from './CurvedRoad';
 
@@ -21,19 +26,30 @@ export default function RoadLayout({ configuration }: IProps) {
         section
       });
 
-      switch (section.direction) {
-        case Direction.North:
-          currentY -= section.length;
-          break;
-        case Direction.East:
-          currentX += section.length;
-          break;
-        case Direction.South:
-          currentY += section.length;
-          break;
-        case Direction.West:
-          currentX -= section.length;
-          break;
+      if (section.turnAngle) {
+        switch (section.turnDirection) {
+          case Direction.North:
+            currentY -= section.lanes * DefaultRoad.width;
+            break;
+          case Direction.South:
+            currentY += section.lanes * DefaultRoad.width;
+            break;
+        }
+      } else {
+        switch (section.direction) {
+          case Direction.North:
+            currentY -= section.length;
+            break;
+          case Direction.East:
+            currentX += section.length;
+            break;
+          case Direction.South:
+            currentY += section.length;
+            break;
+          case Direction.West:
+            currentX -= section.length;
+            break;
+        }
       }
     }
 

@@ -34,6 +34,11 @@ export default function IndexPage() {
         turnAngle: 90,
         turnDirection: Direction.South,
         length: 200
+      },
+      {
+        direction: Direction.South,
+        lanes: 2,
+        length: 500
       }
     ]
   });

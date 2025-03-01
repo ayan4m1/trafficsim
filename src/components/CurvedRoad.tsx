@@ -1,5 +1,5 @@
 import { Arc, Layer, Shape } from 'react-konva';
-import { DefaultRoad, RoadSectionProps } from '../utils';
+import { DefaultRoad, Direction, RoadSectionProps } from '../utils';
 
 export default function CurvedRoad({ x, y, section }: RoadSectionProps) {
   return (
@@ -13,12 +13,20 @@ export default function CurvedRoad({ x, y, section }: RoadSectionProps) {
             y={
               y +
               index * DefaultRoad.width -
-              Math.max(0, index * DefaultRoad.width)
+              Math.max(0, index * DefaultRoad.width) +
+              (section.turnDirection === Direction.South
+                ? DefaultRoad.width * section.lanes
+                : 0)
             }
-            angle={section.turnAngle}
+            angle={
+              section.turnDirection === Direction.South
+                ? 360 - section.turnAngle
+                : section.turnAngle
+            }
             innerRadius={index * DefaultRoad.width}
             outerRadius={(index + 1) * DefaultRoad.width}
             fill={DefaultRoad.color}
+            clockwise={section.turnDirection === Direction.South}
           />
         ))}
       {Array(section.lanes - 1)
@@ -36,14 +44,21 @@ export default function CurvedRoad({ x, y, section }: RoadSectionProps) {
               ];
               const dest = [...start];
 
-              dest[0] += DefaultRoad.width;
-              dest[1] -= DefaultRoad.width;
+              if (section.turnDirection === Direction.South) {
+                dest[0] += DefaultRoad.width;
+                dest[1] += DefaultRoad.width;
+              } else {
+                dest[0] += DefaultRoad.width;
+                dest[1] -= DefaultRoad.width;
+              }
 
               ctx.beginPath();
               ctx.moveTo(start[0], start[1] + 1);
               ctx.quadraticCurveTo(
                 dest[0],
-                dest[1] + DefaultRoad.width,
+                dest[1] + section.turnDirection === Direction.South
+                  ? 0
+                  : DefaultRoad.width,
                 dest[0],
                 dest[1]
               );
@@ -51,21 +66,6 @@ export default function CurvedRoad({ x, y, section }: RoadSectionProps) {
               ctx.fillStrokeShape(shape);
             }}
           />
-          // <Arc
-          //   key={index}
-          //   x={x}
-          //   y={
-          //     y +
-          //     index * DefaultRoad.width -
-          //     Math.max(0, index * DefaultRoad.width)
-          //   }
-          //   angle={section.turnAngle}
-          //   innerRadius={index * DefaultRoad.width}
-          //   outerRadius={(index + 1) * DefaultRoad.width}
-          //   stroke="#fefefe"
-          //   strokeWidth={1}
-          //   dash={[4, 4]}
-          // />
         ))}
     </Layer>
   );
